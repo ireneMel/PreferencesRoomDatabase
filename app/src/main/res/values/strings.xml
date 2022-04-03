@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">PreferencesRoomDatabase2</string>
+    <string name="font_sample">Font sample</string>
+    <string name="choose_background_color">Background color</string>
+    <string name="purple">purple</string>
+    <string name="green">green</string>
+    <string name="blue">blue</string>
+    <string name="cream">Cream</string>
+    <string name="brown">Brown</string>
+    <string name="dark_red">Dark red</string>
+    <string name="choose_font_color">Font color</string>
+    <string name="dark_blue">Dark blue</string>
+    <string name="black">BLACK</string>
+    <string name="author">Author: Melnyk Irene</string>
+    <string name="reset_data">Reset data</string>
+    <string name="go_to_recycler_view">Go to recyclerview</string>
+    <string name="save_data">Save data</string>
+</resources>
