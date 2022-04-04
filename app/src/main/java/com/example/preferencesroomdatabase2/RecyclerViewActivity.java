@@ -5,20 +5,17 @@ import static com.example.preferencesroomdatabase2.MainActivity.TEXT_KEY;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.preferencesroomdatabase2.databinding.ActivityRecyclerViewBinding;
 
-import java.util.List;
 import java.util.Objects;
 
 public class RecyclerViewActivity extends AppCompatActivity {
@@ -45,12 +42,7 @@ public class RecyclerViewActivity extends AppCompatActivity {
         prefViewModel = new ViewModelProvider(this).get(PrefViewModel.class);
 
         Intent intent = getIntent();
-        prefViewModel.getAllPrefs().observe(this, new Observer<List<TblPrefs>>() {
-            @Override
-            public void onChanged(List<TblPrefs> tblPrefs) {
-                  adapter.setPrefs(tblPrefs);
-            }
-        });
+        prefViewModel.getAllPrefs().observe(this, adapter::setPrefs);
 
         addToDb(intent.getIntExtra(BACKGROUND_KEY, R.color.white), intent.getIntExtra(TEXT_KEY, R.color.black));
 
@@ -66,7 +58,6 @@ public class RecyclerViewActivity extends AppCompatActivity {
     private void addToDb(long key, long value) {
         TblPrefs pr = new TblPrefs(getColorName(key), getColorName(value));
         prefViewModel.insert(pr);
-//        prefViewModel.insert(new TblPrefs("a", "b"));
     }
 
     private String getColorName(long a) {
@@ -81,6 +72,4 @@ public class RecyclerViewActivity extends AppCompatActivity {
         if (a == ContextCompat.getColor(this, R.color.dark_red)) return "Dark red";
         return "None";
     }
-
-
 }

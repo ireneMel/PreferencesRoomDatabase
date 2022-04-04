@@ -37,7 +37,6 @@ public class PrefRepository {
 
         @Override
         protected Void doInBackground(TblPrefs... tblPrefs) {
-//            mDao.deleteAll();
             mDao.insert(tblPrefs[0]);
             return null;
         }

@@ -28,26 +28,29 @@ public class PrefAdapter extends RecyclerView.Adapter<PrefAdapter.PrefViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull PrefViewHolder holder, int position) {
-        if(prefList != null) {
+        if (prefList != null) {
             TblPrefs current = prefList.get(position);
-            holder.view.setText(new StringBuilder().append(current.getPrefKey()).append(" : ").append(current.getPrefValue()).toString());
+            holder.view.setText(new StringBuilder().append(position + 1).append(". ").
+                    append(current.getPrefKey()).append(" (bg), ").
+                    append(current.getPrefValue()).append(" (text)").toString());
         } else
             holder.view.setText("no data");
     }
 
-    void setPrefs(List<TblPrefs> prefList){
+    void setPrefs(List<TblPrefs> prefList) {
         this.prefList = prefList;
         notifyDataSetChanged();
     }
 
     @Override
     public int getItemCount() {
-        if(prefList != null) return prefList.size();
+        if (prefList != null) return prefList.size();
         return 0;
     }
 
-    static class PrefViewHolder extends RecyclerView.ViewHolder{
+    static class PrefViewHolder extends RecyclerView.ViewHolder {
         private final TextView view;
+
         public PrefViewHolder(@NonNull View itemView) {
             super(itemView);
             view = itemView.findViewById(R.id.rec_item);

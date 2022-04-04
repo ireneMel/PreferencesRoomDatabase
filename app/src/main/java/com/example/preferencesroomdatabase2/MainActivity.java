@@ -1,13 +1,10 @@
 package com.example.preferencesroomdatabase2;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.PersistableBundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -18,18 +15,13 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.preferencesroomdatabase2.databinding.ActivityMainBinding;
-
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding binding;
+
     //current background color
     private int mBackground;
     //current text color
@@ -50,9 +42,10 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        new PrefRoomDatabase.PopulateAsync(PrefRoomDatabase.getINSTANCE(this)).execute();
+        //clean the database
+        new PrefRoomDatabase.DeleteAsync(PrefRoomDatabase.getINSTANCE(this)).execute();
 
-        //initialize
+        //initialize data
         mBackground = ContextCompat.getColor(this, R.color.white);
         mText = ContextCompat.getColor(this, com.google.android.material.R.color.material_on_surface_stroke);
         mShowColor = binding.mainTextview;
@@ -87,14 +80,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (R.id.rec_view == item.getItemId()) {
-            //go to recycler view activity
             Intent intent = new Intent(this, RecyclerViewActivity.class);
 
-            //put extras here
             intent.putExtra(BACKGROUND_KEY, mBackground);
             intent.putExtra(TEXT_KEY, mText);
 
-            Log.v("AAAAAAAAAAAAAAAAAAAAAAAA",  mBackground +" : "+ ContextCompat.getColor(this,R.color.blue));
             startActivity(intent);
 
         } else if (R.id.reset == item.getItemId())
@@ -132,6 +122,7 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(this, "Data was reset", Toast.LENGTH_SHORT).show();
     }
 
+    //implement onClickListeners for buttons
     private void onClickChange() {
         binding.blueBackground.setOnClickListener(this::changeBackgroundColor);
         binding.creamBackground.setOnClickListener(this::changeBackgroundColor);
