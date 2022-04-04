@@ -2,7 +2,6 @@ package com.example.preferencesroomdatabase2;
 
 import android.app.Application;
 import android.os.AsyncTask;
-import android.provider.ContactsContract;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
@@ -24,7 +23,7 @@ public class PrefRepository {
         new InsertAsync(mDao).execute(pref);
     }
 
-    LiveData<List<TblPrefs>> getAllPrefs(){
+    LiveData<List<TblPrefs>> getAllPrefs() {
         return mAllPrefs;
     }
 
@@ -38,6 +37,7 @@ public class PrefRepository {
 
         @Override
         protected Void doInBackground(TblPrefs... tblPrefs) {
+//            mDao.deleteAll();
             mDao.insert(tblPrefs[0]);
             return null;
         }

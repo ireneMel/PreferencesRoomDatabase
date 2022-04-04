@@ -44,14 +44,14 @@ public class RecyclerViewActivity extends AppCompatActivity {
         // ViewModelProviders to associate your ViewModel with your UI controller
         prefViewModel = new ViewModelProvider(this).get(PrefViewModel.class);
 
+        Intent intent = getIntent();
         prefViewModel.getAllPrefs().observe(this, new Observer<List<TblPrefs>>() {
             @Override
             public void onChanged(List<TblPrefs> tblPrefs) {
-                adapter.setPrefs(tblPrefs);
+                  adapter.setPrefs(tblPrefs);
             }
         });
 
-        Intent intent = getIntent();
         addToDb(intent.getIntExtra(BACKGROUND_KEY, R.color.white), intent.getIntExtra(TEXT_KEY, R.color.black));
 
     }
@@ -64,11 +64,9 @@ public class RecyclerViewActivity extends AppCompatActivity {
     }
 
     private void addToDb(long key, long value) {
-        Log.v("AAAAAAAAAAAA", key + " : " + value);
         TblPrefs pr = new TblPrefs(getColorName(key), getColorName(value));
-        Log.v("AAAAAAAAAAAA", pr.getPrefKey() + " : " + pr.getPrefValue());
         prefViewModel.insert(pr);
-        prefViewModel.insert(new TblPrefs("a", "b"));
+//        prefViewModel.insert(new TblPrefs("a", "b"));
     }
 
     private String getColorName(long a) {

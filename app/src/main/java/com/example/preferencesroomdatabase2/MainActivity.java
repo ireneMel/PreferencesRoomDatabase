@@ -50,6 +50,8 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        new PrefRoomDatabase.PopulateAsync(PrefRoomDatabase.getINSTANCE(this)).execute();
+
         //initialize
         mBackground = ContextCompat.getColor(this, R.color.white);
         mText = ContextCompat.getColor(this, com.google.android.material.R.color.material_on_surface_stroke);

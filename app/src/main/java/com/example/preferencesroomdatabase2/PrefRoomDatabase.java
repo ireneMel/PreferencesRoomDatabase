@@ -12,7 +12,7 @@ import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 import androidx.sqlite.db.SupportSQLiteOpenHelper;
 
-@Database(entities = {TblPrefs.class}, version = 1, exportSchema = false)
+@Database(entities = {TblPrefs.class}, version = 2, exportSchema = false)
 public abstract class PrefRoomDatabase extends RoomDatabase {
 
     public abstract PrefDao prefDao();
@@ -26,7 +26,7 @@ public abstract class PrefRoomDatabase extends RoomDatabase {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                             PrefRoomDatabase.class, "my_database")
                             .fallbackToDestructiveMigration()
-                            .addCallback(callback)
+//                            .addCallback(callback) //to clean db
                             .build();
                 }
             }
@@ -35,21 +35,23 @@ public abstract class PrefRoomDatabase extends RoomDatabase {
     }
 
     private static final RoomDatabase.Callback callback = new RoomDatabase.Callback(){
-
         @Override
-        public void onOpen(@NonNull SupportSQLiteDatabase db){
-            super.onOpen(db);
+        public void onCreate(@NonNull SupportSQLiteDatabase db) {
+            super.onCreate(db);
             new PopulateAsync(INSTANCE).execute();
         }
 
+//        @Override
+//        public void onOpen(@NonNull SupportSQLiteDatabase db){
+//            super.onOpen(db);
+//            new PopulateAsync(INSTANCE).execute();
+//        }
 
     };
 
-    private static class PopulateAsync extends AsyncTask<Void,Void,Void> {
+    public static class PopulateAsync extends AsyncTask<Void,Void,Void> {
 
         private PrefDao dao;
-        String background = "background color";
-        String text = "text color (example)";
         PopulateAsync(PrefRoomDatabase db){
            dao = db.prefDao();
         }
@@ -57,10 +59,6 @@ public abstract class PrefRoomDatabase extends RoomDatabase {
         @Override
         protected Void doInBackground(Void... voids) {
             dao.deleteAll();
-
-            TblPrefs pr = new TblPrefs(background, text);
-            dao.insert(pr);
-
             return null;
         }
     }
